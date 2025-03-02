@@ -1,4 +1,4 @@
-# Quiz Application
+# G201 Calculator
 
 This is a simple quiz application built using HTML, CSS, and JavaScript. The application allows users to answer multiple-choice questions and navigate through the quiz.
 
