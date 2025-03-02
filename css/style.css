@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
     padding: 0;
@@ -7,27 +6,48 @@
 }
 
 body {
-    background: linear-gradient(135deg, #e6f7ff 0%, #ffffff 50%, #ffebe6 100%);
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* Add blurred background with pseudo-element */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/image.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+    z-index: -1;
 }
 
 .quiz-container {
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.95);
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 700px;
     overflow: hidden;
     border: 2px solid #3a7bd5;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 /* Header styles */
 .quiz-header {
-    background: linear-gradient(to right, #3a7bd5, #3a6073);
+    background: linear-gradient(135deg, #3a7bd5, #3a6073);
     color: white;
     padding: 20px;
     text-align: center;
@@ -40,23 +60,33 @@ body {
     position: absolute;
     top: 0;
     right: 0;
-    width: 30%;
+    width: 50%;
     height: 100%;
     background: linear-gradient(to left, #d53a3a, transparent);
-    opacity: 0.6;
+    opacity: 0.4;
+    z-index: 0;
+}
+
+.quiz-header h1, 
+.quiz-header .quiz-subtitle, 
+.quiz-header .quiz-info,
+.quiz-header .team-logo {
+    position: relative;
+    z-index: 1;
 }
 
 .quiz-header h1 {
-    font-size: 28px;
-    margin-bottom: 5px;
+    font-size: 32px;
+    margin-bottom: 8px;
     font-weight: 700;
-    position: relative;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 }
 
 .quiz-subtitle {
     font-size: 16px;
     opacity: 0.9;
     margin-bottom: 15px;
+    font-style: italic;
 }
 
 .quiz-info {
@@ -77,12 +107,76 @@ body {
     gap: 6px;
 }
 
+/* Team logo styles */
+.logo-container {
+    position: relative;
+    margin: 0 auto 15px;
+    width: 90px;
+    height: 90px;
+}
+
+.team-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    padding: 2px;
+    background-color: rgba(255, 255, 255, 0.3);
+    display: block;
+    margin: 0 auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.logo-container::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+    z-index: 1;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        width: 86px;
+        height: 86px;
+        opacity: 0.7;
+    }
+    70% {
+        width: 96px;
+        height: 96px;
+        opacity: 0;
+    }
+    100% {
+        width: 86px;
+        height: 86px;
+        opacity: 0;
+    }
+}
+
+.team-logo:hover {
+    transform: scale(1.05) rotate(5deg);
+    border-color: white;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
 /* Progress bar styles */
 .progress-container {
     height: 6px;
     background-color: #e0e0e0;
     width: 100%;
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 .progress-bar {
@@ -191,6 +285,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 8px;
+    margin-top: 20px;
 }
 
 .back-btn {
@@ -218,6 +313,8 @@ body {
     padding: 30px;
     text-align: center;
     background-color: white;
+    max-height: none;
+    overflow-y: visible;
 }
 
 .result-header {
