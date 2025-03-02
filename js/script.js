@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const transportImpact = document.getElementById('transport-impact');
     const energyImpact = document.getElementById('energy-impact');
     const customRecommendations = document.getElementById('custom-recommendations');
+    const themeToggle = document.getElementById('theme-toggle');
+    const htmlElement = document.documentElement;
+    const themeIcon = themeToggle.querySelector('i');
 
     // Define questions
     const questions = [
@@ -244,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Update progress bar
     function updateProgressBar() {
-        const progress = (currentQuestionIndex / questions.length) * 100;
+        const progress = (currentQuestionIndex + 1) / questions.length * 100;
         progressBar.style.width = progress + '%';
     }
     
@@ -306,7 +309,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const value = parseFloat(answerInput.value);
         
         const impact = calculateEcoImpact(question, value);
-        currentEcoScore = Math.max(0, Math.min(100, currentEcoScore + impact));
+        currentEcoScore = Math.max(0, Math.min(100, currentEcoScore + impact ));
         ecoScore.textContent = Math.round(currentEcoScore);
     }
     
@@ -571,14 +574,6 @@ document.addEventListener('DOMContentLoaded', function() {
             recommendationHeading.style.color = '#2c3e50';
             customRecommendations.prepend(recommendationHeading);
             
-            // Add section explaining video links
-            const videoNote = document.createElement('p');
-            videoNote.innerHTML = '<i class="fas fa-info-circle"></i> Click on "Watch tutorial" buttons to learn more about each recommendation.';
-            videoNote.style.fontSize = '14px';
-            videoNote.style.fontStyle = 'italic';
-            videoNote.style.marginTop = '20px';
-            videoNote.style.color = '#666';
-            customRecommendations.appendChild(videoNote);
         }
         
         // Generate result summary HTML
@@ -605,4 +600,153 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize the quiz
     initQuiz();
+
+    // Dark mode toggle functionality
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+    
+    // Toggle theme when button is clicked
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = htmlElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+    });
+    
+    // Function to set the theme and update the icon
+    function setTheme(theme) {
+        htmlElement.setAttribute('data-theme', theme);
+        
+        if (theme === 'dark') {
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+            themeToggle.setAttribute('aria-label', 'Toggle light mode');
+        } else {
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+            themeToggle.setAttribute('aria-label', 'Toggle dark mode');
+        }
+    }
+
+    // Enhanced function to show only results page with beautiful animations
+    function previewResultsPage() {
+        // Hide question-related elements with fade
+        questionCard.classList.add('fade-out');
+        actionsContainer.classList.add('fade-out');
+        
+        setTimeout(() => {
+            questionCard.classList.add('hidden');
+            actionsContainer.classList.add('hidden');
+            
+            // Show results container with fade-in
+            resultContainer.classList.remove('hidden');
+            resultContainer.classList.add('fade-in');
+        }, 500);
+        
+        // Sample eco score
+        const sampleScore = 65;
+        finalEcoScore.textContent = sampleScore;
+        
+        // Set meter pointer position
+        const pointerPosition = (sampleScore / 100) * 100;
+        meterPointer.style.left = `${pointerPosition}%`;
+        
+        // Set sample result message
+        resultMessage.textContent = "Your team is making good progress toward sustainability, but there's room for improvement.";
+        
+        // Sample impact messages
+        materialsImpact.textContent = "Your team used a moderate amount of disposable items. Consider reducing single-use plastics.";
+        transportImpact.textContent = "Your travel resulted in carbon emissions that could be reduced with more efficient planning.";
+        energyImpact.textContent = "Battery usage is within reasonable limits, but proper disposal and recycling are essential.";
+        
+        // Generate sample recommendations
+        const sampleRecommendations = [
+            `<div class='recommendation-item' data-category="materials">
+                <i class='fas fa-check-circle'></i>
+                <span>Replace single-use plastic items with biodegradable alternatives</span>
+                <a href="https://www.youtube.com/watch?v=NBnihk6Fq3U" target="_blank" class="video-link">
+                    <i class="fas fa-video"></i> Watch tutorial
+                </a>
+            </div>`,
+            `<div class='recommendation-item' data-category="transport">
+                <i class='fas fa-check-circle'></i>
+                <span>Plan trips more efficiently to reduce fuel consumption</span>
+                <a href="https://www.youtube.com/watch?v=17xh_VRrnMU" target="_blank" class="video-link">
+                    <i class="fas fa-video"></i> Watch tutorial
+                </a>
+            </div>`,
+            `<div class='recommendation-item' data-category="energy">
+                <i class='fas fa-check-circle'></i>
+                <span>Implement a battery recycling program</span>
+                <a href="https://www.youtube.com/watch?v=wEXG0o6A0bA" target="_blank" class="video-link">
+                    <i class="fas fa-video"></i> Watch tutorial
+                </a>
+            </div>`,
+            `<div class='recommendation-item' data-category="materials">
+                <i class='fas fa-check-circle'></i>
+                <span>Set up a recycling station for scrap materials from robot building</span>
+                <a href="https://www.youtube.com/watch?v=5qx2WFpNTPs" target="_blank" class="video-link">
+                    <i class="fas fa-video"></i> Watch tutorial
+                </a>
+            </div>`
+        ];
+        
+        // Display sample recommendations
+        customRecommendations.innerHTML = sampleRecommendations.join('');
+        
+        // Add heading before custom recommendations
+        const recommendationHeading = document.createElement('h4');
+        recommendationHeading.textContent = "Suggested Action Steps:";
+        recommendationHeading.style.marginBottom = '15px';
+        recommendationHeading.style.color = '#2c3e50';
+        customRecommendations.prepend(recommendationHeading);
+        
+        // Generate sample result summary HTML
+        let summaryHTML = '<h3>Your Detailed Responses:</h3>';
+        
+        // Sample sections with questions and answers
+        const sampleSections = {
+            "I. Shipping and Packaging of Products": [
+                { q: "What was the total weight (in kg) of the packages that you transported?", a: "1200" }
+            ],
+            "II. Disposable Meal Items": [
+                { q: "How many boxes of 50 paper plates did you use?", a: "45" },
+                { q: "How many boxes of 150 plastic forks did you use?", a: "30" },
+                { q: "How many packets of 75 napkins did you use?", a: "60" }
+            ],
+            "III. Robot Components": [
+                { q: "How much old wires (in kg) did you waste?", a: "12.5" },
+                { q: "How many batteries died in total?", a: "8" }
+            ]
+        };
+        
+        // Build sample summary HTML
+        let qIndex = 1;
+        for (const section in sampleSections) {
+            summaryHTML += `<h4>${section}</h4>`;
+            
+            sampleSections[section].forEach(item => {
+                summaryHTML += `<p><strong>Q${qIndex}:</strong> ${item.q}<br>
+                              <strong>A:</strong> ${item.a}</p>`;
+                qIndex++;
+            });
+        }
+        
+        resultSummary.innerHTML = summaryHTML;
+    }
+    
+    // CALL THIS FUNCTION TO SHOW ONLY RESULTS PAGE
+    // Comment out when you want normal quiz functionality
+
+    // previewResultsPage();
+    
+    // If preview mode is active, register restart button to reload page instead
+    restartButton.addEventListener('click', function() {
+        // Check if we're in preview mode (by checking if questions are hidden)
+        if (questionCard.classList.contains('hidden')) {
+            location.reload();
+        } else {
+            initQuiz();
+        }
+    });
 });
