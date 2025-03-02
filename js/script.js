@@ -37,7 +37,8 @@ document.addEventListener('DOMContentLoaded', function() {
             max: 1500,
             eco_tip: "Every kg of package weight contributes to carbon emissions during transport.",
             eco_impact: "high",
-            category: "materials"
+            category: "materials",
+            videoLink: "https://www.youtube.com/watch?v=5qx2WFpNTPs" // Sustainable packaging video
         },
         {
             section: "II. Disposable Meal Items",
@@ -48,7 +49,8 @@ document.addEventListener('DOMContentLoaded', function() {
             max: 1500,
             eco_tip: "Paper plates can be composted, but reusable dishes are more eco-friendly.",
             eco_impact: "medium",
-            category: "materials"
+            category: "materials",
+            videoLink: "https://www.youtube.com/watch?v=NBnihk6Fq3U" // Eco-friendly dining materials
         },
         {
             section: "II. Disposable Meal Items",
@@ -59,7 +61,8 @@ document.addEventListener('DOMContentLoaded', function() {
             max: 1000,
             eco_tip: "Plastic utensils are difficult to recycle. Consider bamboo or other biodegradable alternatives.",
             eco_impact: "high",
-            category: "materials"
+            category: "materials",
+            videoLink: "https://www.youtube.com/watch?v=NMAeRTJA_xQ" // Alternative to plastic utensils
         },
         {
             section: "II. Disposable Meal Items",
@@ -70,7 +73,8 @@ document.addEventListener('DOMContentLoaded', function() {
             max: 2000,
             eco_tip: "Paper napkins have a high environmental cost. Consider cloth napkins for team events.",
             eco_impact: "medium",
-            category: "materials"
+            category: "materials",
+            videoLink: "https://www.youtube.com/watch?v=KD_sDi_Omw4" // Sustainable napkin alternatives
         },
         {
             section: "II. Disposable Meal Items",
@@ -81,7 +85,8 @@ document.addEventListener('DOMContentLoaded', function() {
             max: 4000,
             eco_tip: "Single-use plastic bottles have a significant environmental impact. Reusable bottles are much better.",
             eco_impact: "high",
-            category: "materials"
+            category: "materials",
+            videoLink: "https://www.youtube.com/watch?v=jTYkzGpP3WQ" // Reusable water bottle options
         },
         {
             section: "III. Robot Components",
@@ -136,7 +141,8 @@ document.addEventListener('DOMContentLoaded', function() {
             max: 100,
             eco_tip: "Batteries contain harmful chemicals and should be properly recycled.",
             eco_impact: "high",
-            category: "energy"
+            category: "energy",
+            videoLink: "https://www.youtube.com/watch?v=wEXG0o6A0bA" // Battery recycling video
         },
         {
             section: "IV. 3-D Printing Materials",
@@ -158,7 +164,8 @@ document.addEventListener('DOMContentLoaded', function() {
             max: 10000,
             eco_tip: "Transportation is a major contributor to carbon emissions.",
             eco_impact: "high",
-            category: "transport"
+            category: "transport",
+            videoLink: "https://www.youtube.com/watch?v=17xh_VRrnMU" // Eco-friendly transportation video
         },
         {
             section: "V. Transportation to/from comps",
@@ -169,7 +176,8 @@ document.addEventListener('DOMContentLoaded', function() {
             max: 1000,
             eco_tip: "Every liter of fuel burned produces CO2 emissions that contribute to climate change.",
             eco_impact: "high",
-            category: "transport"
+            category: "transport",
+            videoLink: "https://www.youtube.com/watch?v=ZS_4Htwj0OQ" // Fuel efficiency video
         }
     ];
 
@@ -272,26 +280,24 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Calculate eco impact for an answer
     function calculateEcoImpact(question, value) {
-        const normalizedValue = (value - question.min) / (question.max - question.min);
+        // Calculate what percentage of the max possible value this answer represents
+        const range = question.max - question.min;
+        const normalizedValue = range > 0 ? (value - question.min) / range : 0;
         
+        // Base impact factors by impact level
         let impactFactor;
         switch (question.eco_impact) {
-            case 'high':
-                impactFactor = -15;
-                break;
-            case 'medium':
-                impactFactor = -10;
-                break;
-            case 'low':
-                impactFactor = -5;
-                break;
-            default:
-                impactFactor = -10;
+            case 'high': impactFactor = -20; break;
+            case 'medium': impactFactor = -12; break;
+            case 'low': impactFactor = -6; break;
+            default: impactFactor = -10;
         }
         
-        // More usage = more impact = lower score
-        // Using normalized value to calculate impact
-        return normalizedValue * impactFactor;
+        // Apply a curve to make higher values disproportionately more impactful
+        const curvedImpact = Math.pow(normalizedValue, 1.5);
+        
+        // Calculate final impact
+        return curvedImpact * impactFactor;
     }
     
     // Update eco score based on current answer
@@ -374,27 +380,123 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Generate recommendations based on answers
     function generateRecommendations() {
+        // Get all available video links from questions organized by category
+        const videoLinks = {
+            materials: questions
+                .filter(q => q.category === 'materials' && q.videoLink)
+                .map(q => q.videoLink),
+            transport: questions
+                .filter(q => q.category === 'transport' && q.videoLink)
+                .map(q => q.videoLink),
+            energy: questions
+                .filter(q => q.category === 'energy' && q.videoLink)
+                .map(q => q.videoLink)
+        };
+        
+        // Calculate impact levels for displaying appropriate messages
+        const materialsImpact = calculateCategoryImpact('materials');
+        const transportImpact = calculateCategoryImpact('transport');
+        const energyImpact = calculateCategoryImpact('energy');
+        
+        // Define all recommendations with video links
+        const allRecommendations = [
+            {
+                category: 'materials',
+                text: 'Replace single-use plastic items with biodegradable alternatives',
+                videoIndex: 0,
+                impact: 'high'
+            },
+            {
+                category: 'materials',
+                text: 'Implement a materials recycling program for your workspace',
+                videoIndex: 1,
+                impact: 'medium'
+            },
+            {
+                category: 'materials',
+                text: 'Set up a recycling station for scrap materials from robot building',
+                videoIndex: 2,
+                impact: 'low'
+            },
+            {
+                category: 'transport',
+                text: 'Implement a carpooling system for team travel to competitions',
+                videoIndex: 0,
+                impact: 'high'
+            },
+            {
+                category: 'transport',
+                text: 'Plan trips more efficiently to reduce fuel consumption',
+                videoIndex: 1,
+                impact: 'medium'
+            },
+            {
+                category: 'energy',
+                text: 'Implement a battery recycling program',
+                videoIndex: 0,
+                impact: 'high'
+            },
+            {
+                category: 'energy',
+                text: 'Explore renewable energy options for powering practice sessions',
+                videoIndex: 1,
+                impact: 'medium'
+            },
+            {
+                category: 'energy',
+                text: 'Ensure all electronics are turned off when not in use',
+                videoIndex: 0,
+                impact: 'low'
+            }
+        ];
+        
+        // Build HTML for recommendations
         let recommendations = [];
         
-        // Materials recommendations
-        const materialsImpact = calculateCategoryImpact('materials');
-        if (materialsImpact > 0.7) {
-            recommendations.push("<div class='recommendation-item'><i class='fas fa-check-circle'></i><span>Consider using digital documentation instead of paper whenever possible</span></div>");
-            recommendations.push("<div class='recommendation-item'><i class='fas fa-check-circle'></i><span>Implement a materials recycling program for your workspace</span></div>");
-        }
+        // Process recommendations according to their impact level
+        allRecommendations.forEach(rec => {
+            // Get appropriate video link if available
+            const categoryVideos = videoLinks[rec.category] || [];
+            const videoLink = categoryVideos.length > rec.videoIndex ? categoryVideos[rec.videoIndex] : 
+                            (categoryVideos.length > 0 ? categoryVideos[0] : null);
+            
+            // Check if recommendation should be shown based on impact level
+            let showRec = true;
+            if (rec.category === 'materials' && rec.impact === 'high' && materialsImpact < 0.4) showRec = false;
+            if (rec.category === 'transport' && rec.impact === 'high' && transportImpact < 0.4) showRec = false;
+            if (rec.category === 'energy' && rec.impact === 'high' && energyImpact < 0.4) showRec = false;
+            
+            // Always show at least one recommendation per category
+            if (showRec || recommendations.filter(r => r.includes(rec.category)).length === 0) {
+                recommendations.push(`<div class='recommendation-item' data-category="${rec.category}">
+                    <i class='fas fa-check-circle'></i>
+                    <span>${rec.text}</span>
+                    ${videoLink ? `<a href="${videoLink}" target="_blank" class="video-link">
+                        <i class="fas fa-video"></i> Watch tutorial
+                    </a>` : ''}
+                </div>`);
+            }
+        });
         
-        // Transport recommendations
-        const transportImpact = calculateCategoryImpact('transport');
-        if (transportImpact > 0.6) {
-            recommendations.push("<div class='recommendation-item'><i class='fas fa-check-circle'></i><span>Plan trips more efficiently to reduce fuel consumption</span></div>");
-            recommendations.push("<div class='recommendation-item'><i class='fas fa-check-circle'></i><span>Consider using electric vehicles or hybrids for team transport</span></div>");
-        }
-        
-        // Energy recommendations
-        const energyImpact = calculateCategoryImpact('energy');
-        if (energyImpact > 0.5) {
-            recommendations.push("<div class='recommendation-item'><i class='fas fa-check-circle'></i><span>Implement a battery recycling program</span></div>");
-            recommendations.push("<div class='recommendation-item'><i class='fas fa-check-circle'></i><span>Ensure all electronics are turned off when not in use</span></div>");
+        // Always ensure we have at least 4 recommendations
+        if (recommendations.length < 4) {
+            for (let i = 0; i < allRecommendations.length && recommendations.length < 4; i++) {
+                const rec = allRecommendations[i];
+                const alreadyAdded = recommendations.some(r => r.includes(rec.text));
+                
+                if (!alreadyAdded) {
+                    const categoryVideos = videoLinks[rec.category] || [];
+                    const videoLink = categoryVideos.length > 0 ? categoryVideos[0] : null;
+                    
+                    recommendations.push(`<div class='recommendation-item' data-category="${rec.category}">
+                        <i class='fas fa-check-circle'></i>
+                        <span>${rec.text}</span>
+                        ${videoLink ? `<a href="${videoLink}" target="_blank" class="video-link">
+                            <i class="fas fa-video"></i> Watch tutorial
+                        </a>` : ''}
+                    </div>`);
+                }
+            }
         }
         
         return recommendations;
@@ -457,10 +559,26 @@ document.addEventListener('DOMContentLoaded', function() {
             energyImpact.textContent = "Excellent energy management! Your team is minimizing battery waste.";
         }
         
-        // Generate custom recommendations
+        // Generate custom recommendations with improved styling
         const customRecs = generateRecommendations();
         if (customRecs.length > 0) {
             customRecommendations.innerHTML = customRecs.join('');
+            
+            // Add heading before custom recommendations
+            const recommendationHeading = document.createElement('h4');
+            recommendationHeading.textContent = "Suggested Action Steps:";
+            recommendationHeading.style.marginBottom = '15px';
+            recommendationHeading.style.color = '#2c3e50';
+            customRecommendations.prepend(recommendationHeading);
+            
+            // Add section explaining video links
+            const videoNote = document.createElement('p');
+            videoNote.innerHTML = '<i class="fas fa-info-circle"></i> Click on "Watch tutorial" buttons to learn more about each recommendation.';
+            videoNote.style.fontSize = '14px';
+            videoNote.style.fontStyle = 'italic';
+            videoNote.style.marginTop = '20px';
+            videoNote.style.color = '#666';
+            customRecommendations.appendChild(videoNote);
         }
         
         // Generate result summary HTML
