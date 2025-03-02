@@ -571,7 +571,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const recommendationHeading = document.createElement('h4');
             recommendationHeading.textContent = "Suggested Action Steps:";
             recommendationHeading.style.marginBottom = '15px';
-            recommendationHeading.style.color = '#2c3e50';
+            recommendationHeading.style.color = getComputedStyle(document.documentElement).getPropertyValue('--eco-friendly-color');
             customRecommendations.prepend(recommendationHeading);
             
         }
@@ -698,7 +698,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const recommendationHeading = document.createElement('h4');
         recommendationHeading.textContent = "Suggested Action Steps:";
         recommendationHeading.style.marginBottom = '15px';
-        recommendationHeading.style.color = '#2c3e50';
+        recommendationHeading.style.color = getComputedStyle(document.documentElement).getPropertyValue('--eco-friendly-color');
         customRecommendations.prepend(recommendationHeading);
         
         // Generate sample result summary HTML
