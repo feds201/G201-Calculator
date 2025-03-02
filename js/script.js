@@ -33,18 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const questions = [
         {
             section: "I. Shipping and Packaging of Products",
-            question: "How heavy are you?",
-            hint: "Enter an integer between 500-1500 kg",
-            type: "int",
-            min: 1,
-            max: 1500,
-            eco_tip: "More you eat more heavier you get",
-            eco_impact: "low",
-            category: "materials",
-            videoLink: "https://www.youtube.com/watch?v=5qx2WFpNTPs" // Sustainable packaging video
-        },
-        {
-            section: "I. Shipping and Packaging of Products",
             question: "What was the total weight (in kg) of the packages that you transported?",
             hint: "Enter an integer between 500-1500 kg",
             type: "int",

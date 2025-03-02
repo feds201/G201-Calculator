@@ -82,8 +82,8 @@ body::before {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    filter: blur(0px) saturate(120%);
-    -webkit-filter: blur(0px) saturate(120%);
+    filter: blur(12px) saturate(120%);
+    -webkit-filter: blur(12px) saturate(120%);
     z-index: -2;
 }
 
