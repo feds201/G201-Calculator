@@ -33,12 +33,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const questions = [
         {
             section: "I. Shipping and Packaging of Products",
-            question: "What was the total weight (in kg) of the packages that you transported?",
-            hint: "Enter an integer between 500-1500 kg",
+            question: "What was the total weight (in lbs) of the packages that you transported?",
+            hint: "Enter an integer value",
             type: "int",
-            min: 1,
-            max: 1500,
-            eco_tip: "Every kg of package weight contributes to carbon emissions during transport.",
+            min: 0,
+            max: 10000,
+            eco_tip: "Every lbs of package weight contributes to carbon emissions during transport.",
             eco_impact: "high",
             category: "materials",
             videoLink: "https://www.youtube.com/watch?v=5qx2WFpNTPs" // Sustainable packaging video
@@ -46,10 +46,10 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             section: "II. Disposable Meal Items",
             question: "How many boxes of 50 paper plates did you use?",
-            hint: "Enter an integer between 25-1500",
+            hint: "Enter an integer value",
             type: "int",
-            min: 1,           
-            max: 1500,
+            min: 0,           
+            max: 10000,
             eco_tip: "Paper plates can be composted, but reusable dishes are more eco-friendly.",
             eco_impact: "medium",
             category: "materials",
@@ -58,10 +58,10 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             section: "II. Disposable Meal Items",
             question: "How many boxes of 150 plastic forks did you use?",
-            hint: "Enter an integer between 25-1000",
+            hint: "Enter an integer value",
             type: "int",
-            min: 1,
-            max: 1000,
+            min: 0,
+            max: 10000,
             eco_tip: "Plastic utensils are difficult to recycle. Consider bamboo or other biodegradable alternatives.",
             eco_impact: "high",
             category: "materials",
@@ -70,10 +70,10 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             section: "II. Disposable Meal Items",
             question: "How many packets of 75 napkins did you use?",
-            hint: "Enter an integer between 50-2000",
+            hint: "Enter an integer value",
             type: "int",
-            min: 1,
-            max: 2000,
+            min: 0,
+            max: 10000,
             eco_tip: "Paper napkins have a high environmental cost. Consider cloth napkins for team events.",
             eco_impact: "medium",
             category: "materials",
@@ -82,10 +82,10 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             section: "II. Disposable Meal Items",
             question: "How many cartons of 50 water bottles did you use?",
-            hint: "Enter an integer between 200-4000",
+            hint: "Enter an integer value",
             type: "int",
-            min: 1,
-            max: 4000,
+            min: 0,
+            max: 10000,
             eco_tip: "Single-use plastic bottles have a significant environmental impact. Reusable bottles are much better.",
             eco_impact: "high",
             category: "materials",
@@ -93,11 +93,11 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             section: "III. Robot Components",
-            question: "How much old wires (in kg) did you waste?",
+            question: "How much old wires (in lbs) did you waste?",
             hint: "Enter a decimal value",
             type: "double",
-            min: 1,
-            max: 1000,
+            min: 0,
+            max: 10000,
             eco_tip: "Electronic waste contains valuable materials that can be recycled properly.",
             eco_impact: "medium",
             category: "materials"
@@ -105,10 +105,10 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             section: "III. Robot Components",
             question: "How many cardboard boxes/pieces did you use for prototyping?",
-            hint: "Enter an integer between 25-100",
+            hint: "Enter an integer value",
             type: "int",
-            min: 1,
-            max: 100,
+            min: 0,
+            max: 10000,
             eco_tip: "Cardboard is recyclable, but try to reuse it for multiple prototypes when possible.",
             eco_impact: "low",
             category: "materials"
@@ -118,19 +118,19 @@ document.addEventListener('DOMContentLoaded', function() {
             question: "How many 20 by 20 aluminum bars and parts did you use in total?",
             hint: "Enter an integer value",
             type: "int",
-            min: 1,
-            max: 1000,
+            min: 0,
+            max: 10000,
             eco_tip: "Aluminum has a high environmental cost to produce, but is highly recyclable.",
             eco_impact: "medium",
             category: "materials"
         },
         {
             section: "III. Robot Components",
-            question: "How much lumber (in kgs) did you use?",
+            question: "How much lumber (in lbs) did you use?",
             hint: "Enter a decimal value",
             type: "double",
-            min: 1,
-            max: 1000,
+            min: 0,
+            max: 10000,
             eco_tip: "Sustainable lumber is a renewable resource but still has environmental impact.",
             eco_impact: "medium",
             category: "materials"
@@ -140,8 +140,8 @@ document.addEventListener('DOMContentLoaded', function() {
             question: "How many batteries died in total?",
             hint: "Enter an integer value",
             type: "int",
-            min: 1,
-            max: 100,
+            min: 0,
+            max: 10000,
             eco_tip: "Batteries contain harmful chemicals and should be properly recycled.",
             eco_impact: "high",
             category: "energy",
@@ -149,21 +149,21 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             section: "IV. 3-D Printing Materials",
-            question: "How much filament waste (in kg) did you waste in total?",
+            question: "How much filament waste (in lbs) did you waste in total?",
             hint: "Enter a decimal value",
             type: "double",
-            min: 1,
-            max: 100,
+            min: 0,
+            max: 10000,
             eco_tip: "3D printing filament is often made from plastics that are difficult to recycle.",
             eco_impact: "medium",
             category: "materials"
         },
         {
             section: "V. Transportation to/from comps",
-            question: "What was your mileage from your vehicle in total through trips?",
+            question: "What was your milage from your vehicle in total through trips?",
             hint: "Enter an integer value",
             type: "int",
-            min: 1,
+            min: 0,
             max: 10000,
             eco_tip: "Transportation is a major contributor to carbon emissions.",
             eco_impact: "high",
@@ -172,12 +172,12 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             section: "V. Transportation to/from comps",
-            question: "How much fuel (in Liters) did you use in total while pulling a trailer or during a trip?",
+            question: "How much fuel (in gallons) did you use in total while pulling a trailer or during a trip?",
             hint: "Enter a decimal value",
             type: "double",
-            min: 1,
-            max: 1000,
-            eco_tip: "Every liter of fuel burned produces CO2 emissions that contribute to climate change.",
+            min: 0,
+            max: 10000,
+            eco_tip: "Every gallon of fuel burned produces CO2 emissions that contribute to climate change.",
             eco_impact: "high",
             category: "transport",
             videoLink: "https://www.youtube.com/watch?v=ZS_4Htwj0OQ" // Fuel efficiency video
@@ -707,7 +707,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Sample sections with questions and answers
         const sampleSections = {
             "I. Shipping and Packaging of Products": [
-                { q: "What was the total weight (in kg) of the packages that you transported?", a: "1200" }
+                { q: "What was the total weight (in lbs) of the packages that you transported?", a: "1200" }
             ],
             "II. Disposable Meal Items": [
                 { q: "How many boxes of 50 paper plates did you use?", a: "45" },
@@ -715,7 +715,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 { q: "How many packets of 75 napkins did you use?", a: "60" }
             ],
             "III. Robot Components": [
-                { q: "How much old wires (in kg) did you waste?", a: "12.5" },
+                { q: "How much old wires (in lbs) did you waste?", a: "12.5" },
                 { q: "How many batteries died in total?", a: "8" }
             ]
         };
