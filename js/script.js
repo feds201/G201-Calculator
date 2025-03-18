@@ -417,7 +417,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 category: 'materials',
-                text: 'Set up a recycling station for scrap materials from robot building',
+                text: 'Set up a recycling station for scrap materials from robot building',,
                 videoIndex: 2,
                 impact: 'low'
             },
@@ -612,7 +612,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setTheme(newTheme);
         localStorage.setItem('theme', newTheme);
     });
-    
+
     // Function to set the theme and update the icon
     function setTheme(theme) {
         htmlElement.setAttribute('data-theme', theme);
@@ -626,6 +626,35 @@ document.addEventListener('DOMContentLoaded', function() {
             themeIcon.classList.add('fa-moon');
             themeToggle.setAttribute('aria-label', 'Toggle dark mode');
         }
+    }
+
+    // Lbs to Kg converter
+    const savedUnit = localStorage.getItem('unit') || 'lbs';
+    setUnit(savedUnit);
+        
+    
+    // Toggle unit when button is clicked
+    unitToggle.addEventListener('click', ()=> {
+        const currentUnit = htmlElement.getAttribute('data-unit');
+        const newUnit = currentUnit === 'kg' ? 'lbs' : 'kg';
+        setUnit(newUnit);
+        localStorage.setItem('unit', newUnit);
+    });
+
+    //Function to set the unit and update the icon
+    function setUnit(unit) {
+        htmlElement.setAttribute('data-unit', unit);
+
+        if(unit === 'kg') {
+            unitIcon.classList.remove('fa-scale-unbalanced');
+            unitIcon.classlist.add('fa-scale-unbalanced-flip');
+            themeToggle.setAttribute('aria-label', 'Convert to lbs');
+        } else {
+            unitIcon.classList.remove('fa-scale-unbalanced-flip');
+            unitIcon.classlist.add('fa-scale-unbalanced');
+            themeToggle.setAttribute('aria-label', 'Convert to kg');
+        }
+
     }
 
     // Enhanced function to show only results page with beautiful animations
