@@ -417,7 +417,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 category: 'materials',
-                text: 'Set up a recycling station for scrap materials from robot building',,
+                text: 'Set up a recycling station for scrap materials from robot building',
                 videoIndex: 2,
                 impact: 'low'
             },
