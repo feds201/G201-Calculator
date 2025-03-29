@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const themeToggle = document.getElementById('theme-toggle');
     const htmlElement = document.documentElement;
     const themeIcon = themeToggle.querySelector('i');
+    const unitToggle = document.getElementById('unit-toggle');
 
     // Define questions
     const questions = [
@@ -633,29 +634,35 @@ document.addEventListener('DOMContentLoaded', function() {
     setUnit(savedUnit);
         
     
-    // Toggle unit when button is clicked
-    unitToggle.addEventListener('click', ()=> {
-        const currentUnit = htmlElement.getAttribute('data-unit');
-        const newUnit = currentUnit === 'kg' ? 'lbs' : 'kg';
-        setUnit(newUnit);
-        localStorage.setItem('unit', newUnit);
-    });
+// Toggle unit when button is clicked
+unitToggle.addEventListener('click', () => {
+    const currentUnit = htmlElement.getAttribute('data-unit');
+    console.log(currentUnit); // Ensure this logs the correct value
+    const newUnit = currentUnit === 'kg' ? 'lbs' : 'kg';
+    setUnit(newUnit);
+    localStorage.setItem('unit', newUnit);
 
-    //Function to set the unit and update the icon
-    function setUnit(unit) {
-        htmlElement.setAttribute('data-unit', unit);
-
-        if(unit === 'kg') {
-            unitIcon.classList.remove('fa-scale-unbalanced');
-            unitIcon.classlist.add('fa-scale-unbalanced-flip');
-            themeToggle.setAttribute('aria-label', 'Convert to lbs');
-        } else {
-            unitIcon.classList.remove('fa-scale-unbalanced-flip');
-            unitIcon.classlist.add('fa-scale-unbalanced');
-            themeToggle.setAttribute('aria-label', 'Convert to kg');
-        }
-
+    if (text.textContent.includes("lbs")) {
+        text.textContent = text.textContent.replace("lbs", "kg");
+    } else if (text.textContent.includes("kg")) {
+        text.textContent = text.textContent.replace("kg", "lbs");
     }
+});
+
+// Function to set the unit and update the icon
+function setUnit(unit) {
+    htmlElement.setAttribute('data-unit', unit);
+
+    if (unit === 'kg') {
+        unitIcon.classList.remove('fa-scale-unbalanced');
+        unitIcon.classList.add('fa-scale-unbalanced-flip'); // Fixed typo
+        themeToggle.setAttribute('aria-label', 'Convert to lbs'); // Fixed spacing in 'aria-label'
+    } else {
+        unitIcon.classList.remove('fa-scale-unbalanced-flip');
+        unitIcon.classList.add('fa-scale-unbalanced'); // Fixed typo
+        themeToggle.setAttribute('aria-label', 'Convert to kg'); // Fixed spacing in 'aria-label'
+    }
+}
 
     // Enhanced function to show only results page with beautiful animations
     function previewResultsPage() {
